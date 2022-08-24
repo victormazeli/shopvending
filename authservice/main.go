@@ -10,7 +10,6 @@ import (
 )
 
 func main() {
-	logrus.SetFormatter(&logrus.JSONFormatter{})
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
