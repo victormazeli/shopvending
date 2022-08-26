@@ -3,8 +3,8 @@ package database
 import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"jwt-authentication-golang/models"
 	"log"
+	"userservice/models"
 )
 
 var Instance *gorm.DB
