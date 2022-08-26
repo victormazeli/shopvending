@@ -1,4 +1,4 @@
-package helper
+package services
 
 import (
 	"errors"
@@ -14,11 +14,10 @@ type JWTClaim struct {
 	jwt.StandardClaims
 }
 
-func GenerateJWT(userId int, email string) (tokenString string, err error) {
+func GenerateJWT(userId int) (tokenString string, err error) {
 	expirationTime := time.Now().Add(1 * time.Hour)
 	claims := &JWTClaim{
 		UserId: userId,
-		Email:  email,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
