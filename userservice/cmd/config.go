@@ -1,22 +1,28 @@
 package cmd
 
-type DatabaseConfig struct {
-	Url string `arg:"env:CONNECTION_URL"`
-}
+import "github.com/spf13/viper"
 
 type ServerConfig struct {
-	Port string `arg:"env:PORT"`
-	Name string `arg:"env:SERVICE_NAME"`
-	DatabaseConfig
+	Port       string `mapstructure:"env:PORT"`
+	Name       string `mapstructure:"env:SERVICE_NAME"`
+	Host       string `mapstructure:"env:DATABASE_Host"`
+	DBPassword string `mapstructure:"env:DATABASE_PASSWORD"`
+	User       string `mapstructure:"env:DATABASE_USER"`
 }
 
-func DefaultConfig() *ServerConfig {
-	return &ServerConfig{
-		Name: "userservice",
-		Port: "8081",
-		DatabaseConfig: DatabaseConfig{
-			Url: "host=localhost user=vend password=rootpass dbname=userservice port=5432 sslmode=disable",
-		},
+// LoadConfig reads configuration from file or environment variables.
+func LoadConfig(path string) (config ServerConfig, err error) {
+	viper.AddConfigPath(path)
+	viper.SetConfigName("app")
+	viper.SetConfigType("env")
+
+	viper.AutomaticEnv()
+
+	err = viper.ReadInConfig()
+	if err != nil {
+		return
 	}
 
+	err = viper.Unmarshal(&config)
+	return
 }

@@ -1,0 +1,45 @@
+version: "3"
+services:
+  userservice:
+    build:
+      context: userservice
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    env_file:
+      - userservice/app.env
+    depends_on:
+      - postgresDB
+    networks:
+      - shopvending_network
+
+  gatewayservice:
+    build:
+      context: gatewayservice
+      dockerfile: Dockerfile
+    ports:
+      - "8091:8091"
+    environment:
+      - SERVER_PORT=
+      - DATABASE_HOST=
+      - DATABASE_USER=
+      - DATABASE_PASSWORD=
+      - SERVICE_NAME=gatewayservice
+    networks:
+      - shopvending_network
+
+  postgresDB:
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD=rootpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - database_postgres:/var/lib/postgresql/data
+    networks:
+      - shopvending_network
+
+volumes:
+  database_postgres:
+networks:
+  shopvending_network:

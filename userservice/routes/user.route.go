@@ -7,7 +7,7 @@ import (
 
 func UserRoutes() *chi.Mux {
 	apiRouter := chi.NewRouter()
-	apiRouter.Get("/{id}", handlers.ManualRegistration)
+	apiRouter.Get("/{id}", handlers.AuthHandler{}.ManualRegistration)
 
 	return apiRouter
 }

@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/sirupsen/logrus"
 	"net/http"
+	"os"
 	"time"
-	"userservice/cmd"
 	"userservice/database"
 	"userservice/middlewares"
 	"userservice/routes"
@@ -14,11 +14,16 @@ import (
 )
 
 func main() {
-	c := cmd.DefaultConfig()
-	port := ":" + c.Port
-	dns := c.DatabaseConfig.Url
+	//c, er := cmd.LoadConfig(".")
+	//if er != nil {
+	//	logrus.Error("cannot load config:", er)
+	//}
+	port := ":" + os.Getenv("PORT")
+	dns := "host=postgresDB user=postgres password=rootpass dbname=postgres port=5432 sslmode=disable"
 	database.Connect(dns)
 	database.Migrate()
+	database.CreateRoleAllowedEnum()
+	database.CreateStatusAllowedEnum()
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
@@ -36,7 +41,7 @@ func main() {
 	})
 	r.Mount("/auth", routes.AuthRoutes())
 	r.Mount("/user", routes.UserRoutes())
-	logrus.Infof("Server starting on port 8080")
+	logrus.Infof("Server starting on port %s", port)
 	err := http.ListenAndServe(port, r)
 
 	if err != nil {

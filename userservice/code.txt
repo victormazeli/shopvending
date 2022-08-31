@@ -1,0 +1,18 @@
+func (psqlClient *DBClient) CreateCarTypeEnum() error {
+    result := psqlClient.db.Exec("SELECT 1 FROM pg_type WHERE typname = 'car_type';")
+
+    switch {
+    case result.RowsAffected == 0:
+        if err := psqlClient.db.Exec("CREATE TYPE car_type AS ENUM ('SEDAN', 'HATCHBACK', 'MINIVAN');").Error; err != nil {
+            log.Error().Err(err).Msg("Error creating car_type ENUM")
+            return err
+        }
+
+        return nil
+    case result.Error != nil:
+        return result.Error
+
+    default:
+        return nil
+    }
+}
