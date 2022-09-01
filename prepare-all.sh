@@ -3,14 +3,12 @@
 export CGO_ENABLED=0
 
 echo "Preparing user service"
-cd userservice;go get;env GOOS=linux GOARCH=amd64 go build -o user-service-linux-amd64;echo built `pwd`;cd ..
 docker image rm cipher2022/userservice
 docker build -t cipher2022/userservice userservice/
 docker push cipher2022/userservice
 
 
 echo "Preparing gateway service"
-cd gatewayservice;go get;env GOOS=linux GOARCH=amd64 go build -o gateway-service-linux-amd64;echo built `pwd`;cd ..
 docker image rm cipher2022/gatewayservice
 docker build -t cipher2022/gatewayservice gatewayservice/
 docker push cipher2022/gatewayservice

@@ -19,7 +19,7 @@ func main() {
 	//	logrus.Error("cannot load config:", er)
 	//}
 	port := ":" + os.Getenv("PORT")
-	dns := "host=postgresDB user=postgres password=rootpass dbname=postgres port=5432 sslmode=disable"
+	dns := os.Getenv("DATABASE_URL")
 	database.Connect(dns)
 	database.Migrate()
 	database.CreateRoleAllowedEnum()

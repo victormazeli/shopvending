@@ -47,7 +47,7 @@ func (a AuthHandler) UserRegistration(detail model.UserSignUpDetail) (*model.Use
 	}
 
 	logrus.Infof("Response code: %d", resp.StatusCode())
-	if resp.StatusCode() == http.StatusOK {
+	if resp.StatusCode() == http.StatusCreated {
 		response := model.User{}
 		err := json.Unmarshal(resp.Body(), &response)
 		if err != nil {

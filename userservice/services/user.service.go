@@ -54,7 +54,7 @@ func (u UserService) CreateUser(newUser dto.CreateNewUserDTO) *models.User {
 	createNewUser.HashPassword(createNewUser.Password)
 	result := database.Instance.Create(&createNewUser)
 	if result.Error != nil {
-		logrus.Errorf("Error saving food to the database: %s", result.Error)
+		logrus.Errorf("Error saving user to the database: %s", result.Error)
 		return nil
 	}
 

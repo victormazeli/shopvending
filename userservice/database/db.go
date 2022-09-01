@@ -1,6 +1,7 @@
 package database
 
 import (
+	"database/sql"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"
@@ -11,7 +12,14 @@ var Instance *gorm.DB
 var dbError error
 
 func Connect(connectionString string) {
-	Instance, dbError = gorm.Open(postgres.Open(connectionString), &gorm.Config{})
+	sqlDB, err := sql.Open("pgx", connectionString)
+	if err != nil {
+		panic("Cannot open connection")
+	}
+
+	Instance, dbError = gorm.Open(postgres.New(postgres.Config{
+		Conn: sqlDB,
+	}), &gorm.Config{})
 	if dbError != nil {
 		log.Fatal(dbError)
 		panic("Cannot connect to DB")

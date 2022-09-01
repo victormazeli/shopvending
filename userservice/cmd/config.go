@@ -8,6 +8,7 @@ type ServerConfig struct {
 	Host       string `mapstructure:"env:DATABASE_Host"`
 	DBPassword string `mapstructure:"env:DATABASE_PASSWORD"`
 	User       string `mapstructure:"env:DATABASE_USER"`
+	Url        string `mapstructure:"env:DATABASE_URL"`
 }
 
 // LoadConfig reads configuration from file or environment variables.

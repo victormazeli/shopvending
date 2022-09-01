@@ -49,7 +49,7 @@ func (st StatusAllowed) Value() (driver.Value, error) {
 }
 
 type User struct {
-	ID              uint           `json:"id" gorm:"type:bigserial;primaryKey;autoIncrement"`
+	ID              uint           `json:"id,string" gorm:"type:bigserial;primaryKey;autoIncrement"`
 	Email           string         `json:"email" gorm:"type:varchar(255);unique;not null"`
 	Password        string         `json:"password" gorm:"type:varchar(255);unique;not null""`
 	OTPCode         string         `json:"otp_code"`

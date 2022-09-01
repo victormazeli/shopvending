@@ -25,4 +25,4 @@ docker service rm shopVendingMicroservices_gatewayservice
 sh ./deploy-viz.sh
 
 # deploy the services stack
-docker stack deploy --compose-file=docker-compose-dev.yml shopVendingMicroservices
+docker stack deploy --compose-file=docker-compose-stage.yml shopVendingMicroservices

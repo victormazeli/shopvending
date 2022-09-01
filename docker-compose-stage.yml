@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  userservice:
+    image: cipher2022/userservice:latest
+    ports:
+      - "8090:8090"
+    env_file:
+      - userservice/app.env
+    environment:
+      - PORT=8090
+      - DATABASE_URL=postgresql://doadmin:AVNS_0Ck-kE5oCLfzLhSBeX2@shopvending-do-user-10637946-0.b.db.ondigitalocean.com:25060/user_db?sslmode=require
+      - SERVICE_NAME=gatewayservice
+    networks:
+      - shopvending_network
+
+  gatewayservice:
+    image: cipher2022/gatewayservice:latest
+    ports:
+      - "8091:8091"
+    env_file:
+      - gatewayservice/dev.env
+    environment:
+      - PORT=8091
+      - SERVICE_NAME=gatewayservice
+    networks:
+      - shopvending_network
+
+networks:
+  shopvending_network:
